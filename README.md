@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cruise Up
 
-## Getting Started
+Independent cruise guides, tips and curated ship-tour videos. Next.js 16 (App Router, Cache Components) + Tailwind CSS 4 + MDX.
 
-First, run the development server:
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| What | Where |
+| --- | --- |
+| Articles (MDX + frontmatter) | `content/articles/*.mdx` |
+| Big 4 + niche line data, editorial scores | `src/lib/lines.ts` |
+| Curated YouTube videos | `src/lib/videos.ts` |
+| Site name / nav / URL | `src/lib/site.ts` |
+| Design tokens (colors, type) | `src/app/globals.css` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Writing an article
 
-## Learn More
+Create `content/articles/my-slug.mdx`:
 
-To learn more about Next.js, take a look at the following resources:
+```mdx
+---
+title: "Headline"
+description: "One-sentence summary used on cards and in search results."
+date: 2026-10-29
+category: tips        # guide | news | tips | comparison
+lines: [carnival]     # royal-caribbean | carnival | norwegian | msc
+featured: false
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Body in Markdown. Components available:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<Callout type="tip|warn|money" title="Optional">Text</Callout>
+<Video id="YOUTUBE_ID" title="Video title" credit="Channel" creditUrl="https://youtube.com/@channel" />
+<Verdict>Bottom line.</Verdict>
+```
 
-## Deploy on Vercel
+### Video policy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Videos only play through YouTube's official privacy-enhanced embed, load on click, credit the creator, and carry our own commentary. Titles and creator names are pulled from YouTube oEmbed at build time; removed or embed-disabled videos drop off automatically.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy
+
+1. Push to GitHub.
+2. Import the repo in Vercel (framework auto-detected, no config needed).
+3. Set `NEXT_PUBLIC_SITE_URL` to your production domain (used for sitemap, RSS, canonical URLs).

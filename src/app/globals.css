@@ -1,26 +1,189 @@
 @import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+  Cruise Up palette — nautical chart.
+  chart: the pale blue-white of an Admiralty chart
+  ink:   deep navy chart ink
+  sea:   sea-glass teal for links and actions
+  signal: signal-flag yellow, used only for selection and focus
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --chart: #edf2f4;
+  --paper: #f8fbfc;
+  --ink: #0e2a47;
+  --ink-soft: #4a6075;
+  --rule: #c9d6de;
+  --sea: #1a6f6b;
+  --sea-strong: #12524f;
+  --signal: #f2b705;
+  --signal-ink: #3a2c00;
+}
+
+[data-theme="dark"] {
+  --chart: #08182a;
+  --paper: #0d2136;
+  --ink: #e4edf2;
+  --ink-soft: #9db1c1;
+  --rule: #1f3a55;
+  --sea: #5cc4bd;
+  --sea-strong: #8ad9d3;
+  --signal: #f2b705;
+  --signal-ink: #1a1400;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-chart: var(--chart);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-sea: var(--sea);
+  --color-sea-strong: var(--sea-strong);
+  --color-signal: var(--signal);
+  --color-signal-ink: var(--signal-ink);
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader Variable", ui-serif, Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--chart);
+  color: var(--ink);
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-variation-settings: "wdth" 85;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  font-weight: 700;
+}
+
+/* Chart grid texture for hero areas */
+.chart-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--rule) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--rule) 55%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Article typography */
+.prose-cruise {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 66ch;
+}
+.prose-cruise > * + * {
+  margin-top: 1.15em;
+}
+.prose-cruise h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1.75rem;
+  line-height: 1.15;
+  margin-top: 2.2em;
+  scroll-margin-top: 6rem;
+}
+.prose-cruise h3 {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: 1.25rem;
+  margin-top: 1.8em;
+}
+.prose-cruise a {
+  color: var(--sea);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose-cruise a:hover {
+  color: var(--sea-strong);
+  text-decoration-thickness: 2px;
+}
+.prose-cruise ul,
+.prose-cruise ol {
+  padding-left: 1.3em;
+}
+.prose-cruise ul {
+  list-style: disc;
+}
+.prose-cruise ol {
+  list-style: decimal;
+}
+.prose-cruise li + li {
+  margin-top: 0.4em;
+}
+.prose-cruise li::marker {
+  color: var(--sea);
+}
+.prose-cruise strong {
+  font-weight: 650;
+}
+.prose-cruise blockquote {
+  border-left: 3px solid var(--signal);
+  padding-left: 1em;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.prose-cruise table {
+  width: 100%;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  border-collapse: collapse;
+  display: block;
+  overflow-x: auto;
+}
+.prose-cruise th,
+.prose-cruise td {
+  text-align: left;
+  padding: 0.6em 0.8em;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.prose-cruise th {
+  font-weight: 650;
+  border-bottom: 2px solid var(--ink);
+}
+.prose-cruise hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2.5em 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

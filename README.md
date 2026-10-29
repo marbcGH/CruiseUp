@@ -2,13 +2,29 @@
 
 Independent cruise guides, tips and curated ship-tour videos. Next.js 16 (App Router, Cache Components) + Tailwind CSS 4 + MDX.
 
-## Run locally
+## Review locally
+
+One-time setup (Node 22+):
 
 ```bash
+git clone https://github.com/marbcGH/CruiseUp.git
+cd CruiseUp
 npm install
-npm run dev        # http://localhost:3000
-npm run build      # production build
+git checkout dev
+npm run dev        # http://localhost:3000 — hot-reloads as files change
 ```
+
+Each iteration:
+
+```bash
+git pull           # grab the latest changes; the dev server reloads automatically
+npm install        # only if package.json changed
+```
+
+## Branches
+
+- `dev` — work in progress. Every push gets a protected Vercel preview URL.
+- `main` — production. Merge `dev` → `main` when an iteration is approved.
 
 ## Where things live
 
